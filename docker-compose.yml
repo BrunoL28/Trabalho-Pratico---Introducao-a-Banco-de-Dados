@@ -1,0 +1,34 @@
+# Postgres local para desenvolvimento, espelha o schema de produção (Supabase)
+# sem tocar no ambiente remoto. O schema é aplicado automaticamente no primeiro
+# boot via /docker-entrypoint-initdb.d.
+#
+#   docker compose up -d        # sobe o banco
+#   docker compose down         # para (mantém os dados no volume)
+#   docker compose down -v      # para e APAGA os dados (reset total)
+#
+# A string de conexão correspondente (default do projeto, ver src/config.py):
+#   postgresql+psycopg2://postgres:postgres@localhost:5432/pix_med
+
+services:
+  db:
+    image: postgres:16
+    container_name: tp-ibd-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pix_med
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Aplicado uma única vez, quando o volume está vazio (primeiro boot).
+      # Para reaplicar depois: `docker compose down -v` ou `python run.py --recriar-schema`.
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d pix_med"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

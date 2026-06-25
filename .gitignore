@@ -1,0 +1,14 @@
+# Segredos — a string de conexão real NUNCA é versionada
+.env
+
+# Ambiente Python
+.venv/
+__pycache__/
+*.pyc
+
+# Artefatos locais
+.ipynb_checkpoints/
+logs/*.log
+
+# Configuração local do Claude Code
+.claude/
