@@ -24,8 +24,7 @@ tp-ibd/
 │   └── eda.py            # Análise exploratória (gera as figuras)
 ├── queries/              # Consultas analíticas (.sql) usadas na EDA
 ├── notebooks/
-│   ├── INSIGHTS.md       # Relatório com os insights de negócio
-│   └── figuras/          # Visualizações geradas pela EDA
+│   ├── figuras/          # Visualizações geradas pela EDA
 └── docs/                 # Relatório técnico (LaTeX/PDF) e diagramas
 ```
 
